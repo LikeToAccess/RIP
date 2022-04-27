@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+savhsseniors2022/
+
 # Distribution / packaging
 .Python
 build/

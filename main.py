@@ -15,6 +15,7 @@ import sys
 import os
 # import time
 import json
+import shutil
 import tqdm
 import instaloader
 from settings import *
@@ -108,18 +109,24 @@ def main():
 			profile_image = {}
 			if file.endswith(".webp"):
 				os.system(f"{ffmpeg_binary} -i {profile}/{file} {profile}/{file.replace('.webp','.png')} -y -hide_banner -loglevel error")
+				if not os.path.exists(f"../../{profile}/"):
+					os.mkdir(f"../../{profile}/")
+				shutil.copyfile(f"{profile}/{file.replace('.webp','.png')}", f"../../{profile}/{file.replace('.webp','.png')}")
 
 				profile_image[file.replace(".webp", "")] = {
-					"image_filename":   file.replace(".webp", ".png"),
-					"text":   read_file(profile+"/"+file.replace(".webp", ".txt")).strip("\n"),
+					"image_filename": file.replace(".webp", ".png"),
+					"text":           read_file(profile+"/"+file.replace(".webp", ".txt")).strip("\n"),
 				}
 
 				profile_images.append(profile_image)
 
 		remove_file(profile+".json")
-		append_json_file(profile+".json", profile_images)
+		append_json_file(f"{profile}.json", profile_images)
+		shutil.copyfile(f"{profile}.json", f"../../{profile}.json")
 
 	finalize(profile+".json")
+	shutil.copyfile(f"{profile}.json.js", f"../../{profile}.json.js")
+
 
 
 if __name__ == "__main__":

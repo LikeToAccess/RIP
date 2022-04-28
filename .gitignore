@@ -8,6 +8,8 @@ __pycache__/
 
 savhsseniors2022/
 .DS_Store
+*.json.js
+*.json
 
 # Distribution / packaging
 .Python
